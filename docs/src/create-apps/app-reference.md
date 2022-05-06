@@ -40,6 +40,13 @@ To override any part of a property, you have to provide the entire property.
 | `source`        | A [source dictionary](#source)                  |          | No               | Information on the app's source code and operations that can be run on it.  |
 | `runtime`       | A [runtime dictionary](#runtime)                |          | No               | Customizations to your PHP or Lisp runtime. |
 
+## Root directory
+
+Some of the properties you can define are relative to your app's root directory.
+The root defaults to the location of your `.platform.app.yaml` file.
+To specify another directory, for example for a [multi-app project](./multi-app.md)),
+use the [`source.root` property](#source).
+
 ## Types
 
 The `type` defines the base container image used to run the application.
@@ -135,8 +142,8 @@ mounts:
         source_path: <SOURCE_PATH_LOCATION>
 ```
 
-The `<DIRECTORY>` is relative to the app's root.
-If it already exists, its contents are masked by the writable mount and inaccessible at runtime.
+The `<DIRECTORY>` is relative to the [app's root](#root-directory).
+If the directory already exists, its contents are masked by the writable mount and inaccessible at runtime.
 
 | Name          | Type                 | Required | Description |
 | ------------- | -------------------- | -------- | ----------- |
@@ -255,7 +262,7 @@ The following table presents possible properties for each location:
 
 | Name                | Type                                                 | Default   | Description |
 | ------------------- | ---------------------------------------------------- | --------- | ----------- |
-| `root`              | `string`                                             |           | The directory to serve static assets for this location relative to the app's root directory. Must be an actual directory inside the root directory. |
+| `root`              | `string`                                             |           | The directory to serve static assets for this location relative to the [app's root directory](#root-directory). Must be an actual directory inside the root directory. |
 | `passthru`          | `boolean` or  `string`                               | `false`   | Whether to forward disallowed and missing resources from this location to the app. A string is a path with a leading `/` to the controller, such as `/index.php`. |
 | `index`             | Array of `string`s or `null`                         |           | Files to consider when serving a request for a directory. When set, requires access to the files through the `allow` or `rules` keys. |
 | `expires`           | `string`                                             | `-1`      | How long static assets are cached. The default means no caching. Setting it to a value enables the `Cache-Control` and `Expires` headers. Times can be suffixed with `ms` = milliseconds, `s` = seconds, `m` = minutes, `h` = hours, `d` = days, `w` = weeks, `M` = months/30d, or `y` = years/365d. |
@@ -739,4 +746,4 @@ The following table shows the properties that can be set in `source`:
 | Name         | Type                     | Required | Description |
 | ------------ | ------------------------ | -------- | ----------- |
 | `operations` | An operations dictionary |          |  Operations that can be applied to the source code. See [source operations](./source-operations.md) |
-| `root`       | `string`                 |          |  The path where the app code lives. Defaults to the path of the configuration file. Useful for [multi-app setups](./multi-app.md). |
+| `root`       | `string`                 |          |  The path where the app code lives. Defaults to the directory of the `.platform.app.yaml` file. Useful for [multi-app setups](./multi-app.md). |
